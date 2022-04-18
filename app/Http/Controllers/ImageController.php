@@ -100,4 +100,46 @@ class ImageController extends Controller
         // Redirecciona
         return redirect()->route('home')->with($message);
     }
+
+    public function edit($id){
+        $user = \Auth::user();
+        $image = Image::find($id);
+
+        if($user && $image && $image->user->id == $user->id){
+            return view('images.edit', ['image' => $image]);
+        } else {
+            return redirect()->route('home');
+        }
+    }
+
+    public function update(Request $request){
+        // Recoge los datos
+        $image_id = $request->input('image_id');
+        $image_path = $request->file('image_path');
+        $description = $request->input('description');
+
+        // Validación de los datos
+        $validate = $this->validate($request, [
+            'description' => 'required',
+            'image_path' => 'image'
+        ]);
+
+        // Conseguir el objeto imagen
+        $image = Image::find($image_id);
+        $image->description = $description;
+
+        // Subir archivo
+        if($image_path){
+            $image_path_name = time().$image_path->getClientOriginalName();
+            Storage::disk('images')->put($image_path_name, File::get($image_path));
+            $image->image_path = $image_path_name;
+        }
+
+        // Actualiza la imagen y/o la descripción
+        $image->update();
+
+        // Redirecciona
+        return redirect()->route('images.detail', ['id' => $image_id])
+                                ->with(['message' => 'Foto actualizada correctamente.']);
+    }
 }

@@ -19,6 +19,7 @@ use App\Http\Controllers\LikeController;
 |
 */
 
+// GENERALES
 Route::get('/', function () {
     return view('welcome');
 });
@@ -26,17 +27,28 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// USER
 Route::get('/configuracion', [UserController::class, 'config'])->name('config');
 Route::post('/user/update', [UserController::class, 'update'])->name('user.update');
 Route::get('/user/avatar/{filename}', [UserController::class, 'getImage'])->name('user.avatar');
+Route::get('/perfil/{id}', [UserController::class, 'profile'])->name('profile');
+Route::get('/users/{search?}', [UserController::class, 'index'])->name('user.index');
+
+// IMAGE
 Route::get('/subir-foto', [ImageController::class, 'create'])->name('images.create');
 Route::post('/image/save', [ImageController::class, 'save'])->name('image.save');
 Route::get('/image/file/{filename}', [ImageController::class, 'getImage'])->name('image.file');
 Route::get('/image/{id}', [ImageController::class, 'detail'])->name('images.detail');
+Route::get('/image/delete/{id}', [ImageController::class, 'delete'])->name('image.delete');
+Route::get('/image/edit/{id}', [ImageController::class, 'edit'])->name('images.edit');
+Route::post('/image/update', [ImageController::class, 'update'])->name('image.update');
+
+// COMMENT
 Route::post('/comment/save', [CommentController::class, 'save'])->name('comment.save');
 Route::get('/comment/delete/{id}', [CommentController::class, 'delete'])->name('comment.delete');
+
+// LIKE
 Route::get('/like/{image_id}', [LikeController::class, 'like'])->name('like.save');
 Route::get('/dislike/{image_id}', [LikeController::class, 'dislike'])->name('like.delete');
 Route::get('/likes', [LikeController::class, 'index'])->name('likes');
-Route::get('/perfil/{id}', [UserController::class, 'profile'])->name('profile');
-Route::get('/image/delete/{id}', [ImageController::class, 'delete'])->name('image.delete');

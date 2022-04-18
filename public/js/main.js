@@ -37,4 +37,9 @@ window.addEventListener("load", function(){
             }
         });
 	});
+
+    // Buscador
+    $('#buscador').submit(function(){
+        $(this).attr('action', url+'/users/'+$('#buscador #search').val());
+    });
 });
