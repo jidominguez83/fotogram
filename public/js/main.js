@@ -6,7 +6,7 @@ window.addEventListener("load", function(){
 
 	$(document).on("click", ".btn-like", function(e){
 		$(this).addClass('btn-dislike').removeClass('btn-like');
-		$(this).attr('src', url+'/img/heart-red.png');
+		$(this).attr('src', url+'/img/heart-red.png');   
 
         $.ajax({
             url: url+'/like/'+$(this).data('id'),
@@ -14,6 +14,8 @@ window.addEventListener("load", function(){
             success: function(response){
                 if(response.like){
                     console.log('Has dado like a la publicacion');
+                    console.log(response.like.image_id);
+                    $("#number-likes-"+response.like.image_id).html(response.num_likes);
                 }else{
                     console.log('Error al dar like');
                 }
@@ -31,6 +33,8 @@ window.addEventListener("load", function(){
             success: function(response){
                 if(response.like){
                     console.log('Has dado dislike a la publicacion');
+                    console.log(response.num_likes);
+                    $("#number-likes-"+response.like.image_id).html(response.num_likes);
                 }else{
                     console.log('Error al dar dislike');
                 }

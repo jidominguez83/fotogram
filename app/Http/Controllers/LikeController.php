@@ -40,9 +40,14 @@ class LikeController extends Controller
             // Guarda los datos
             $like->save();
 
+            // Cuenta nuevamente el número de likes de la imagen
+            $num_likes = Like::where('image_id', $image_id)
+                                ->count();
+
             // Redirecciona
             return response()->json([
-                'like' => $like
+                'like' => $like,
+                'num_likes' => $num_likes
             ]);
         } else {
             echo "Ya tiene like";
@@ -61,9 +66,14 @@ class LikeController extends Controller
             // Borra el like
             $like->delete();
 
+            // Cuenta nuevamente el número de likes de la imagen
+            $num_likes = Like::where('image_id', $image_id)
+                                ->count();
+
             // Redirecciona
             return response()->json([
                 'like' => $like,
+                'num_likes' => $num_likes,
                 'message' => 'Dislike'
             ]);
         } else {

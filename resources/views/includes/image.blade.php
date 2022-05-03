@@ -43,7 +43,7 @@
                 <img src="{{ asset('img/heart-gray.png') }}" data-id="{{ $image->id }}" class="btn-like">
             @endif
             
-            <span class="number-likes">{{ count($image->likes) }}</span>
+            <span class="number-likes" id="number-likes-{{ $image->id }}">{{ count($image->likes) }}</span>
         </div>
 
         <div class="comments">
